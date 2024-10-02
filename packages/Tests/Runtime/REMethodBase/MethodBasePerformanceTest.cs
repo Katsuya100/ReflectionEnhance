@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Reflection;
 using Unity.PerformanceTesting;
+using UnityEngine;
 
 namespace Katuusagi.ReflectionEnhance.Tests
 {

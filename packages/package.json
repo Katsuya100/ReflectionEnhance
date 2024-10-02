@@ -1,5 +1,5 @@
 {
-    "name": "com.katuusagi.reflectionenhancce",
+    "name": "com.katuusagi.reflectionenhance",
     "displayName": "ReflectionEnhance",
     "description": "Library for fast Reflection execution.",
     "version": "1.0.0",
@@ -12,7 +12,7 @@
         "com.katuusagi.ilpostprocessorcommon": "2.3.0",
         "com.katuusagi.memoizationforunity": "1.5.0",
         "com.katuusagi.genericenhance": "1.1.0",
-        "com.katuusagi.constexpressionforunity": "3.2.0",
+        "com.katuusagi.constexpressionforunity": "3.2.0"
     },
     "keywords": [
         "reflection"
