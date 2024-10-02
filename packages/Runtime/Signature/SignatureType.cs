@@ -1,0 +1,29 @@
+namespace Katuusagi.ReflectionEnhance.Signature
+{
+    public enum SignatureType
+    {
+        Null,
+        Assembly,
+        Module,
+        Type,
+        SZArrayContainingGenericParameter,
+        ArrayContainingGenericParameter,
+        PointerContainingGenericParameter,
+        ByRefContainingGenericParameter,
+        GenericInstanceTypeContainingGenericParameter,
+        GenericTypeParameter,
+        GenericMethodParameter,
+        OwnedGenericMethodParameter,
+        Constructor,
+        StaticConstructor,
+        Field,
+        Property,
+        IndexerProperty,
+        Method,
+        OperatorMethod,
+        GenericInstanceMethod,
+        MethodContainingOwnedGenericParameter,
+        OperatorMethodContainingOwnedGenericParameter,
+        Event,
+    }
+}

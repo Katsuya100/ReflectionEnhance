@@ -1,0 +1,26 @@
+{
+    "name": "Unity.Katuusagi.ReflectionEnhance.Editor.CodeGen",
+    "rootNamespace": "Unity.Katuusagi.ReflectionEnhance.Editor.CodeGen",
+    "references": [
+        "GUID:138ab45cda308364ab074b9cb16664a2",
+        "GUID:c70eb7601d69e4843a04844bb0c01de0",
+        "GUID:36f7741bedc36d649b0b49a660f462b1",
+        "GUID:a8baef09ae0fc6545811a150e414309b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Mono.Cecil.dll",
+        "Mono.Cecil.Mdb.dll",
+        "Mono.Cecil.Pdb.dll",
+        "Mono.Cecil.Rocks.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

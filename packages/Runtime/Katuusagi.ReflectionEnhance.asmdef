@@ -1,0 +1,20 @@
+{
+    "name": "Katuusagi.ReflectionEnhance",
+    "rootNamespace": "Katuusagi.ReflectionEnhance",
+    "references": [
+        "GUID:24beb62ab04e51240abd266bbebe6576",
+        "GUID:8593f1840fca4844c9db673d969a69db",
+        "GUID:c70eb7601d69e4843a04844bb0c01de0",
+        "GUID:7d9bd8fd69877bc43801e3ecc944a10d",
+        "GUID:cd28306582c6a374cbeebbb756339a19"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
