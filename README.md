@@ -53,6 +53,7 @@ Converting the `MethodBase` type to a `MethodPointer` type results in about a 94
 ### Install Dependent Packages
 Install the following packages:  
 
+- [System.Runtime.CompilerServices.Unsafe](https://learn.microsoft.com/ja-jp/dotnet/core/compatibility/core-libraries/7.0/unsafe-package)
 - [BoxingPool v1.3.1](https://github.com/Katsuya100/BoxingPool/tree/ver1.3.1)
 - [ILPpostProcessorCommon v2.3.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.3.0)
 - [MemoizationForUnity v1.5.0](https://github.com/Katsuya100/MemoizationForUnity/tree/ver1.5.0)
