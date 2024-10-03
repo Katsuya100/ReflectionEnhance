@@ -51,6 +51,7 @@ GetValueは5倍程度、Invokeは16倍程度に処理性能が向上していま
 ### 依存パッケージをインストール
 以下のパッケージをインストールする。  
 
+- [System.Runtime.CompilerServices.Unsafe](https://learn.microsoft.com/ja-jp/dotnet/core/compatibility/core-libraries/7.0/unsafe-package)
 - [BoxingPool v1.3.1](https://github.com/Katsuya100/BoxingPool/tree/ver1.3.1)
 - [ILPpostProcessorCommon v2.3.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.3.0)
 - [MemoizationForUnity v1.5.0](https://github.com/Katsuya100/MemoizationForUnity/tree/ver1.5.0)
