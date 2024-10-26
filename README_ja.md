@@ -65,7 +65,7 @@ GetValueは5倍程度、Invokeは16倍程度に処理性能が向上していま
 
 #### うまくいかない場合
 上記方法は、gitがインストールされていない環境ではうまく動作しない場合があります。
-[Releases](https://github.com/Katsuya100/ReflectionEnhance/releases)から該当のバージョンの`com.katuusagi.arraypool.tgz`をダウンロードし
+[Releases](https://github.com/Katsuya100/ReflectionEnhance/releases)から該当のバージョンの`com.katuusagi.reflectionenhance.tgz`をダウンロードし
 [Package Manager > + > Add package from tarball...]を使ってインストールしてください。
 
 #### それでもうまくいかない場合
