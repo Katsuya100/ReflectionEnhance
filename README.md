@@ -67,7 +67,7 @@ Install the following packages:
 
 #### If It Doesn't Work
 The above method may not work in environments where Git is not installed.  
-Please download the com.katuusagi.arraypool.tgz of the corresponding version from Releases and install it using [Package Manager > + > Add package from tarball...].
+Please download the com.katuusagi.reflectionenhance.tgz of the corresponding version from Releases and install it using [Package Manager > + > Add package from tarball...].
 
 #### If It Still Doesn't Work
 Download the Katuusagi.ReflectionEnhance.unitypackage of the corresponding version from [Releases](https://github.com/Katsuya100/ReflectionEnhance/releases) and import it into the project via [Assets > Import Package > Custom Package].
