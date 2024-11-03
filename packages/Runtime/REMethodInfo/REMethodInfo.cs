@@ -210,6 +210,17 @@ namespace Katuusagi.ReflectionEnhance
             return method.IsSpecialName && method.IsStatic && OperatorOverLoadNames.Contains(method.Name);
         }
 
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] { "Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)" })]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsIndexerRaw(this MethodInfo method)
+        {
+            return method.IsSpecialName &&
+                (
+                    (method.Name == "get_Item" && method.GetParameterCount() >= 1) ||
+                    (method.Name == "set_Item" && method.GetParameterCount() >= 2)
+                );
+        }
+
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsCompatibleRaw(this MethodInfo m, Type retType, params Type[] parameterTypes)

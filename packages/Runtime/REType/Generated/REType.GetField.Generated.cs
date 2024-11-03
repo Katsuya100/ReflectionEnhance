@@ -24,6 +24,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetFieldWithBaseAndInterfaceRaw(this Type type, string name)
+        {
+            return type.GetFieldWithBase(name) ?? type.GetInterfacesFast().Select(v => v.GetFieldFast(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static FieldInfo GetFieldFastRaw(this Type type, string name, BindingFlags bindingAttr)
         {
             return type.GetField(name, bindingAttr);
@@ -33,6 +39,12 @@ namespace Katuusagi.ReflectionEnhance
         private static FieldInfo GetFieldWithBaseRaw(this Type type, string name, BindingFlags bindingAttr)
         {
             return type.GetFieldFast(name, bindingAttr) ?? type.BaseType?.GetFieldWithBase(name, bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetFieldWithBaseAndInterfaceRaw(this Type type, string name, BindingFlags bindingAttr)
+        {
+            return type.GetFieldWithBase(name, bindingAttr) ?? type.GetInterfacesFast().Select(v => v.GetFieldFast(name, bindingAttr)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -72,6 +84,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetFieldWithBaseAndInterfaceFullAccessRaw(this Type type, string name)
+        {
+            return type.GetFieldWithBaseFullAccessRaw(name) ?? type.GetInterfacesFast().Select(v => v.GetFieldFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetInstanceFieldWithBaseAndInterfaceFullAccessRaw(this Type type, string name)
+        {
+            return type.GetInstanceFieldWithBaseFullAccessRaw(name) ?? type.GetInterfacesFast().Select(v => v.GetInstanceFieldFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetStaticFieldWithBaseAndInterfaceFullAccessRaw(this Type type, string name)
+        {
+            return type.GetStaticFieldWithBaseFullAccessRaw(name) ?? type.GetInterfacesFast().Select(v => v.GetStaticFieldFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static FieldInfo GetFieldFastRaw<T>(string name)
         {
             return typeof(T).GetField(name);
@@ -84,6 +114,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetFieldWithBaseAndInterfaceRaw<T>(string name)
+        {
+            return typeof(T).GetFieldWithBase(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetFieldFast(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static FieldInfo GetFieldFastRaw<T>(string name, BindingFlags bindingAttr)
         {
             return typeof(T).GetField(name, bindingAttr);
@@ -93,6 +129,12 @@ namespace Katuusagi.ReflectionEnhance
         private static FieldInfo GetFieldWithBaseRaw<T>(string name, BindingFlags bindingAttr)
         {
             return typeof(T).GetFieldFast(name, bindingAttr) ?? typeof(T).BaseType?.GetFieldWithBase(name, bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetFieldWithBaseAndInterfaceRaw<T>(string name, BindingFlags bindingAttr)
+        {
+            return typeof(T).GetFieldWithBase(name, bindingAttr) ?? typeof(T).GetInterfacesFast().Select(v => v.GetFieldFast(name, bindingAttr)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -129,6 +171,24 @@ namespace Katuusagi.ReflectionEnhance
         private static FieldInfo GetStaticFieldWithBaseFullAccessRaw<T>(string name)
         {
             return typeof(T).GetStaticFieldFullAccess(name) ?? typeof(T).BaseType?.GetFieldWithBaseFullAccess(name);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetFieldWithBaseAndInterfaceFullAccessRaw<T>(string name)
+        {
+            return typeof(T).GetFieldWithBaseFullAccessRaw(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetFieldFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetInstanceFieldWithBaseAndInterfaceFullAccessRaw<T>(string name)
+        {
+            return typeof(T).GetInstanceFieldWithBaseFullAccessRaw(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceFieldFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetFieldErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static FieldInfo GetStaticFieldWithBaseAndInterfaceFullAccessRaw<T>(string name)
+        {
+            return typeof(T).GetStaticFieldWithBaseFullAccessRaw(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticFieldFullAccess(name)).FirstOrDefault();
         }
     }
 }

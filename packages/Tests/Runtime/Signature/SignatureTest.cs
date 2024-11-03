@@ -104,8 +104,7 @@ namespace Katuusagi.ReflectionEnhance.Tests
             {
                 foreach (var type in asm.GetTypesFast())
                 {
-                    var methods = type.GetMethodsFullAccess();
-                    foreach (var method in methods)
+                    foreach (var method in type.GetMethodsFullAccess())
                     {
                         var before = new ReflectionSignature(method);
                         ReflectionSignature after = (ReflectionSignature)before.ToString();
@@ -249,7 +248,8 @@ namespace Katuusagi.ReflectionEnhance.Tests
                 name == "System.Private.CoreLib" ||
                 name == "Assembly-CSharp" ||
                 name == "Assembly-CSharp-Editor" ||
-                name.StartsWith("Unity"))
+                name == "UnityEngine.CoreModule" ||
+                name == "UnityEditor.CoreModule")
             {
                 return true;
             }

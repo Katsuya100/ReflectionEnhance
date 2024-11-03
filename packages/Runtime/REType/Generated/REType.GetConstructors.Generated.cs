@@ -27,6 +27,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetConstructorsWithBaseAndInterfaceRaw(this Type type)
+        {
+            return type.GetConstructorsWithBase().Concat(type.GetInterfacesFast().SelectMany(v => v.GetConstructorsFast())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlyArray<ConstructorInfo> GetConstructorsFastRaw(this Type type, BindingFlags bindingAttr)
         {
             return type.GetConstructors(bindingAttr);
@@ -40,6 +46,12 @@ namespace Katuusagi.ReflectionEnhance
                 return type.BaseType.GetConstructorsWithBase(bindingAttr).Concat(type.GetConstructorsFast(bindingAttr)).ToArray();
             }
             return type.GetConstructorsFast(bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetConstructorsWithBaseAndInterfaceRaw(this Type type, BindingFlags bindingAttr)
+        {
+            return type.GetConstructorsWithBase(bindingAttr).Concat(type.GetInterfacesFast().SelectMany(v => v.GetConstructorsFast(bindingAttr))).ToArray();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,6 +103,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetConstructorsWithBaseAndInterfaceFullAccessRaw(this Type type)
+        {
+            return type.GetConstructorsWithBaseFullAccessRaw().Concat(type.GetInterfacesFast().SelectMany(v => v.GetConstructorsFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetInstanceConstructorsWithBaseAndInterfaceFullAccessRaw(this Type type)
+        {
+            return type.GetInstanceConstructorsWithBaseFullAccessRaw().Concat(type.GetInterfacesFast().SelectMany(v => v.GetInstanceConstructorsFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetStaticConstructorsWithBaseAndInterfaceFullAccessRaw(this Type type)
+        {
+            return type.GetStaticConstructorsWithBaseFullAccessRaw().Concat(type.GetInterfacesFast().SelectMany(v => v.GetStaticConstructorsFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlyArray<ConstructorInfo> GetConstructorsFastRaw<T>()
         {
             return typeof(T).GetConstructors();
@@ -107,6 +137,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetConstructorsWithBaseAndInterfaceRaw<T>()
+        {
+            return typeof(T).GetConstructorsWithBase().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetConstructorsFast())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlyArray<ConstructorInfo> GetConstructorsFastRaw<T>(BindingFlags bindingAttr)
         {
             return typeof(T).GetConstructors(bindingAttr);
@@ -120,6 +156,12 @@ namespace Katuusagi.ReflectionEnhance
                 return typeof(T).BaseType.GetConstructorsWithBase(bindingAttr).Concat(typeof(T).GetConstructorsFast(bindingAttr)).ToArray();
             }
             return typeof(T).GetConstructorsFast(bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetConstructorsWithBaseAndInterfaceRaw<T>(BindingFlags bindingAttr)
+        {
+            return typeof(T).GetConstructorsWithBase(bindingAttr).Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetConstructorsFast(bindingAttr))).ToArray();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -168,6 +210,24 @@ namespace Katuusagi.ReflectionEnhance
                 return typeof(T).BaseType.GetConstructorsWithBaseFullAccess().Concat(typeof(T).GetStaticConstructorsFullAccess()).ToArray();
             }
             return typeof(T).GetStaticConstructorsFullAccess();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetConstructorsWithBaseAndInterfaceFullAccessRaw<T>()
+        {
+            return typeof(T).GetConstructorsWithBaseFullAccessRaw().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetConstructorsFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetInstanceConstructorsWithBaseAndInterfaceFullAccessRaw<T>()
+        {
+            return typeof(T).GetInstanceConstructorsWithBaseFullAccessRaw().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetInstanceConstructorsFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<ConstructorInfo> GetStaticConstructorsWithBaseAndInterfaceFullAccessRaw<T>()
+        {
+            return typeof(T).GetStaticConstructorsWithBaseFullAccessRaw().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetStaticConstructorsFullAccess())).ToArray();
         }
     }
 }

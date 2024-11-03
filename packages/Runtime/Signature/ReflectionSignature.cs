@@ -1,4 +1,5 @@
 using Katuusagi.MemoizationForUnity;
+using Katuusagi.ReflectionEnhance.Utils;
 using System;
 using System.Buffers;
 using System.Linq;
@@ -823,7 +824,7 @@ namespace Katuusagi.ReflectionEnhance.Signature
             {
                 parameters[i] = _parameters[i];
             }
-            return ownerType.GetMethodFullAccess(_name, _count, null, parameters, null);
+            return ownerType.GetMethodFullAccess(_name, _count, SafeSubstitutionBinder.Default, parameters, null);
         }
 
         private MethodInfo DeserializeToOperatorMethod()

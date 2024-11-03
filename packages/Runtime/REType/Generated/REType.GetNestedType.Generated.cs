@@ -24,6 +24,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetNestedTypeWithBaseAndInterfaceRaw(this Type type, string name)
+        {
+            return type.GetNestedTypeWithBase(name) ?? type.GetInterfacesFast().Select(v => v.GetNestedTypeFast(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Type GetNestedTypeFastRaw(this Type type, string name, BindingFlags bindingAttr)
         {
             return type.GetNestedType(name, bindingAttr);
@@ -33,6 +39,12 @@ namespace Katuusagi.ReflectionEnhance
         private static Type GetNestedTypeWithBaseRaw(this Type type, string name, BindingFlags bindingAttr)
         {
             return type.GetNestedTypeFast(name, bindingAttr) ?? type.BaseType?.GetNestedTypeWithBase(name, bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetNestedTypeWithBaseAndInterfaceRaw(this Type type, string name, BindingFlags bindingAttr)
+        {
+            return type.GetNestedTypeWithBase(name, bindingAttr) ?? type.GetInterfacesFast().Select(v => v.GetNestedTypeFast(name, bindingAttr)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -72,6 +84,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetNestedTypeWithBaseAndInterfaceFullAccessRaw(this Type type, string name)
+        {
+            return type.GetNestedTypeWithBaseFullAccessRaw(name) ?? type.GetInterfacesFast().Select(v => v.GetNestedTypeFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetInstanceNestedTypeWithBaseAndInterfaceFullAccessRaw(this Type type, string name)
+        {
+            return type.GetInstanceNestedTypeWithBaseFullAccessRaw(name) ?? type.GetInterfacesFast().Select(v => v.GetInstanceNestedTypeFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetStaticNestedTypeWithBaseAndInterfaceFullAccessRaw(this Type type, string name)
+        {
+            return type.GetStaticNestedTypeWithBaseFullAccessRaw(name) ?? type.GetInterfacesFast().Select(v => v.GetStaticNestedTypeFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Type GetNestedTypeFastRaw<T>(string name)
         {
             return typeof(T).GetNestedType(name);
@@ -84,6 +114,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetNestedTypeWithBaseAndInterfaceRaw<T>(string name)
+        {
+            return typeof(T).GetNestedTypeWithBase(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetNestedTypeFast(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Type GetNestedTypeFastRaw<T>(string name, BindingFlags bindingAttr)
         {
             return typeof(T).GetNestedType(name, bindingAttr);
@@ -93,6 +129,12 @@ namespace Katuusagi.ReflectionEnhance
         private static Type GetNestedTypeWithBaseRaw<T>(string name, BindingFlags bindingAttr)
         {
             return typeof(T).GetNestedTypeFast(name, bindingAttr) ?? typeof(T).BaseType?.GetNestedTypeWithBase(name, bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetNestedTypeWithBaseAndInterfaceRaw<T>(string name, BindingFlags bindingAttr)
+        {
+            return typeof(T).GetNestedTypeWithBase(name, bindingAttr) ?? typeof(T).GetInterfacesFast().Select(v => v.GetNestedTypeFast(name, bindingAttr)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -129,6 +171,24 @@ namespace Katuusagi.ReflectionEnhance
         private static Type GetStaticNestedTypeWithBaseFullAccessRaw<T>(string name)
         {
             return typeof(T).GetStaticNestedTypeFullAccess(name) ?? typeof(T).BaseType?.GetNestedTypeWithBaseFullAccess(name);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetNestedTypeWithBaseAndInterfaceFullAccessRaw<T>(string name)
+        {
+            return typeof(T).GetNestedTypeWithBaseFullAccessRaw(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetNestedTypeFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetInstanceNestedTypeWithBaseAndInterfaceFullAccessRaw<T>(string name)
+        {
+            return typeof(T).GetInstanceNestedTypeWithBaseFullAccessRaw(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceNestedTypeFullAccess(name)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetNestedTypeErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Type GetStaticNestedTypeWithBaseAndInterfaceFullAccessRaw<T>(string name)
+        {
+            return typeof(T).GetStaticNestedTypeWithBaseFullAccessRaw(name) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticNestedTypeFullAccess(name)).FirstOrDefault();
         }
     }
 }

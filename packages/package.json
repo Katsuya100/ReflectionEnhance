@@ -2,7 +2,7 @@
     "name": "com.katuusagi.reflectionenhance",
     "displayName": "ReflectionEnhance",
     "description": "Library for fast Reflection execution.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "unity": "2021.3",
     "dependencies": {
         "com.unity.nuget.mono-cecil": "1.10.2",
@@ -22,5 +22,5 @@
     },
     "documentationUrl": "https://github.com/Katsuya100/ReflectionEnhance",
     "changelogUrl": "https://github.com/Katsuya100/ReflectionEnhance/releases",
-    "licensesUrl": "https://github.com/Katsuya100/ReflectionEnhance/blob/ver1.0.0/LICENSE"
+    "licensesUrl": "https://github.com/Katsuya100/ReflectionEnhance/blob/ver1.0.1/LICENSE"
 }

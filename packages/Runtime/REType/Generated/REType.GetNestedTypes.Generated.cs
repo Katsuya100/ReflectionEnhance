@@ -27,6 +27,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetNestedTypesWithBaseAndInterfaceRaw(this Type type)
+        {
+            return type.GetNestedTypesWithBase().Concat(type.GetInterfacesFast().SelectMany(v => v.GetNestedTypesFast())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlyArray<Type> GetNestedTypesFastRaw(this Type type, BindingFlags bindingAttr)
         {
             return type.GetNestedTypes(bindingAttr);
@@ -40,6 +46,12 @@ namespace Katuusagi.ReflectionEnhance
                 return type.BaseType.GetNestedTypesWithBase(bindingAttr).Concat(type.GetNestedTypesFast(bindingAttr)).ToArray();
             }
             return type.GetNestedTypesFast(bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetNestedTypesWithBaseAndInterfaceRaw(this Type type, BindingFlags bindingAttr)
+        {
+            return type.GetNestedTypesWithBase(bindingAttr).Concat(type.GetInterfacesFast().SelectMany(v => v.GetNestedTypesFast(bindingAttr))).ToArray();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,6 +103,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetNestedTypesWithBaseAndInterfaceFullAccessRaw(this Type type)
+        {
+            return type.GetNestedTypesWithBaseFullAccessRaw().Concat(type.GetInterfacesFast().SelectMany(v => v.GetNestedTypesFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetInstanceNestedTypesWithBaseAndInterfaceFullAccessRaw(this Type type)
+        {
+            return type.GetInstanceNestedTypesWithBaseFullAccessRaw().Concat(type.GetInterfacesFast().SelectMany(v => v.GetInstanceNestedTypesFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetStaticNestedTypesWithBaseAndInterfaceFullAccessRaw(this Type type)
+        {
+            return type.GetStaticNestedTypesWithBaseFullAccessRaw().Concat(type.GetInterfacesFast().SelectMany(v => v.GetStaticNestedTypesFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlyArray<Type> GetNestedTypesFastRaw<T>()
         {
             return typeof(T).GetNestedTypes();
@@ -107,6 +137,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetNestedTypesWithBaseAndInterfaceRaw<T>()
+        {
+            return typeof(T).GetNestedTypesWithBase().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetNestedTypesFast())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlyArray<Type> GetNestedTypesFastRaw<T>(BindingFlags bindingAttr)
         {
             return typeof(T).GetNestedTypes(bindingAttr);
@@ -120,6 +156,12 @@ namespace Katuusagi.ReflectionEnhance
                 return typeof(T).BaseType.GetNestedTypesWithBase(bindingAttr).Concat(typeof(T).GetNestedTypesFast(bindingAttr)).ToArray();
             }
             return typeof(T).GetNestedTypesFast(bindingAttr);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetNestedTypesWithBaseAndInterfaceRaw<T>(BindingFlags bindingAttr)
+        {
+            return typeof(T).GetNestedTypesWithBase(bindingAttr).Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetNestedTypesFast(bindingAttr))).ToArray();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -168,6 +210,24 @@ namespace Katuusagi.ReflectionEnhance
                 return typeof(T).BaseType.GetNestedTypesWithBaseFullAccess().Concat(typeof(T).GetStaticNestedTypesFullAccess()).ToArray();
             }
             return typeof(T).GetStaticNestedTypesFullAccess();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetNestedTypesWithBaseAndInterfaceFullAccessRaw<T>()
+        {
+            return typeof(T).GetNestedTypesWithBaseFullAccessRaw().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetNestedTypesFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetInstanceNestedTypesWithBaseAndInterfaceFullAccessRaw<T>()
+        {
+            return typeof(T).GetInstanceNestedTypesWithBaseFullAccessRaw().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetInstanceNestedTypesFullAccess())).ToArray();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlyArray<Type> GetStaticNestedTypesWithBaseAndInterfaceFullAccessRaw<T>()
+        {
+            return typeof(T).GetStaticNestedTypesWithBaseFullAccessRaw().Concat(typeof(T).GetInterfacesFast().SelectMany(v => v.GetStaticNestedTypesFullAccess())).ToArray();
         }
     }
 }

@@ -23,6 +23,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw(this Type type, string name, int genericParameterCount, Type[] types)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw(this Type type, string name, int genericParameterCount, Type[] types, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, modifiers);
@@ -35,6 +41,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw(this Type type, string name, int genericParameterCount, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers);
@@ -44,6 +56,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -83,6 +101,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw(this Type type, string name, int genericParameterCount, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw(this Type type, string name, int genericParameterCount, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw(this Type type, string name, int genericParameterCount, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers);
@@ -92,6 +128,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,6 +173,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T>(string name, int genericParameterCount, Type[] types)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, null);
@@ -140,6 +200,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T>(string name, int genericParameterCount, Type[] types)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, null);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T>(string name, int genericParameterCount, Type[] types)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -155,6 +221,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T>(string name, int genericParameterCount, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers);
@@ -164,6 +236,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -203,6 +281,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T>(string name, int genericParameterCount, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T>(string name, int genericParameterCount, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T>(string name, int genericParameterCount, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers);
@@ -212,6 +308,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -249,6 +351,24 @@ namespace Katuusagi.ReflectionEnhance
         {
             return typeof(T).GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? typeof(T).BaseType?.GetMethodWithBaseFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers);
         }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, types, modifiers)).FirstOrDefault();
+        }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0>(this Type type, string name, int genericParameterCount)
@@ -260,6 +380,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -275,6 +401,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null);
@@ -284,6 +416,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -299,6 +437,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null);
@@ -308,6 +452,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -323,6 +473,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null);
@@ -332,6 +488,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -347,6 +509,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null);
@@ -356,6 +524,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -371,6 +545,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null);
@@ -380,6 +560,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -395,6 +581,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null);
@@ -404,6 +596,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -419,6 +617,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), null);
@@ -431,6 +635,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null);
@@ -440,6 +650,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -455,6 +671,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
@@ -464,6 +686,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -479,6 +707,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
@@ -488,6 +722,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -503,6 +743,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
@@ -512,6 +758,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -527,6 +779,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
@@ -536,6 +794,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -551,6 +815,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
@@ -560,6 +830,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -575,6 +851,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
@@ -584,6 +866,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -599,6 +887,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
@@ -608,6 +902,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -623,6 +923,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
@@ -635,6 +941,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
@@ -644,6 +956,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -683,6 +1001,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
@@ -692,6 +1028,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -731,6 +1073,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
@@ -740,6 +1100,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -779,6 +1145,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
@@ -788,6 +1172,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -827,6 +1217,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
@@ -836,6 +1244,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -875,6 +1289,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
@@ -884,6 +1316,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -923,6 +1361,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
@@ -932,6 +1388,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -971,6 +1433,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
@@ -980,6 +1460,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1019,6 +1505,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
@@ -1028,6 +1532,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1067,6 +1577,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
@@ -1076,6 +1604,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1115,6 +1649,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
@@ -1124,6 +1676,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1163,6 +1721,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
@@ -1172,6 +1748,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1211,6 +1793,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
@@ -1220,6 +1820,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1259,6 +1865,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
@@ -1268,6 +1892,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1307,6 +1937,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
@@ -1316,6 +1964,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1355,6 +2009,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
@@ -1364,6 +2036,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1403,6 +2081,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
@@ -1412,6 +2108,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1451,6 +2153,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
@@ -1460,6 +2180,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1499,6 +2225,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
@@ -1508,6 +2252,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1547,6 +2297,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
@@ -1556,6 +2324,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1595,6 +2369,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
@@ -1604,6 +2396,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1643,6 +2441,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
@@ -1652,6 +2468,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1691,6 +2513,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
@@ -1700,6 +2540,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1739,6 +2585,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
@@ -1748,6 +2612,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1787,6 +2657,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
@@ -1796,6 +2684,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1835,6 +2729,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
@@ -1844,6 +2756,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1883,6 +2801,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
@@ -1892,6 +2828,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1931,6 +2873,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
@@ -1940,6 +2900,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1979,6 +2945,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
@@ -1988,6 +2972,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2027,6 +3017,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
@@ -2036,6 +3044,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2075,6 +3089,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
@@ -2084,6 +3116,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2123,6 +3161,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
@@ -2132,6 +3188,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return type.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2169,6 +3231,24 @@ namespace Katuusagi.ReflectionEnhance
         {
             return type.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.BaseType?.GetMethodWithBaseFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
         }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(this Type type, string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return type.GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? type.GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0>(string name, int genericParameterCount)
@@ -2180,6 +3260,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2195,6 +3281,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null);
@@ -2204,6 +3296,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2219,6 +3317,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null);
@@ -2228,6 +3332,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2243,6 +3353,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null);
@@ -2252,6 +3368,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2267,6 +3389,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null);
@@ -2276,6 +3404,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2291,6 +3425,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null);
@@ -2300,6 +3440,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2315,6 +3461,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null);
@@ -2324,6 +3476,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2339,6 +3497,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), null);
@@ -2351,6 +3515,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), null)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null);
@@ -2360,6 +3530,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null);
+        }
+        [Memoization(Modifier = "public static", ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), null)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2375,6 +3551,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
@@ -2384,6 +3566,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2399,6 +3587,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
@@ -2408,6 +3602,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2423,6 +3623,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
@@ -2432,6 +3638,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2447,6 +3659,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
@@ -2456,6 +3674,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2471,6 +3695,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
@@ -2480,6 +3710,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2495,6 +3731,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
@@ -2504,6 +3746,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2519,6 +3767,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
@@ -2528,6 +3782,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2543,6 +3803,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
@@ -2555,6 +3821,12 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, REReflection.DefaultLookUp, SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
@@ -2564,6 +3836,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2603,6 +3881,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
@@ -2612,6 +3908,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2651,6 +3953,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
@@ -2660,6 +3980,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2699,6 +4025,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
@@ -2708,6 +4052,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2747,6 +4097,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
@@ -2756,6 +4124,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2795,6 +4169,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
@@ -2804,6 +4196,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2843,6 +4241,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
@@ -2852,6 +4268,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2891,6 +4313,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
@@ -2900,6 +4340,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2939,6 +4385,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
@@ -2948,6 +4412,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2987,6 +4457,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
@@ -2996,6 +4484,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3035,6 +4529,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
@@ -3044,6 +4556,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3083,6 +4601,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
@@ -3092,6 +4628,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3131,6 +4673,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
@@ -3140,6 +4700,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3179,6 +4745,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
@@ -3188,6 +4772,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3227,6 +4817,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
@@ -3236,6 +4844,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3275,6 +4889,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
@@ -3284,6 +4916,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3323,6 +4961,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, Binder binder, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
@@ -3332,6 +4988,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3371,6 +5033,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
@@ -3380,6 +5060,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3419,6 +5105,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
@@ -3428,6 +5132,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3467,6 +5177,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
@@ -3476,6 +5204,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3515,6 +5249,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
@@ -3524,6 +5276,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3563,6 +5321,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
@@ -3572,6 +5348,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3611,6 +5393,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
@@ -3620,6 +5420,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3659,6 +5465,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
@@ -3668,6 +5492,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3707,6 +5537,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
@@ -3716,6 +5564,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3755,6 +5609,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
@@ -3764,6 +5636,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3803,6 +5681,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
@@ -3812,6 +5708,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3851,6 +5753,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
@@ -3860,6 +5780,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3899,6 +5825,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
@@ -3908,6 +5852,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3947,6 +5897,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
@@ -3956,6 +5924,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3995,6 +5969,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
@@ -4004,6 +5996,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4043,6 +6041,24 @@ namespace Katuusagi.ReflectionEnhance
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static MethodInfo GetMethodFastRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethod(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
@@ -4052,6 +6068,12 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetMethodWithBaseRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBase(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFast(name, genericParameterCount, bindingAttr, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
         }
         [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4088,6 +6110,24 @@ namespace Katuusagi.ReflectionEnhance
         private static MethodInfo GetStaticMethodWithBaseFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
         {
             return typeof(T).GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).BaseType?.GetMethodWithBaseFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers);
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetInstanceMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetInstanceMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetInstanceMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
+        }
+        [Memoization(Modifier = "public static", CompareArrayElement = true, ThreadSafeType = ThreadSafeType.ThreadStatic, Attributes = new string[] {"Katuusagi.ConstExpressionForUnity.StaticExpression(CalculationFailedWarning = false, ErrorHandler = GetMethodErrorHandler)"})]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo GetStaticMethodWithBaseAndInterfaceFullAccessRaw<T, TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(string name, int genericParameterCount, Binder binder, CallingConventions callConvention, ParameterModifier[] modifiers)
+        {
+            return typeof(T).GetStaticMethodWithBaseFullAccessRaw(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers) ?? typeof(T).GetInterfacesFast().Select(v => v.GetStaticMethodFullAccess(name, genericParameterCount, binder ?? SubstitutionBinder.Default, callConvention, ArrayCache.MakeTypeArray<TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(), modifiers)).FirstOrDefault();
         }
     }
 }
